@@ -56,6 +56,47 @@ void postorder(Node *node)
 	cout<<node->data<<" ";
 }
 
+Node* findMin(Node *root)
+{
+    while(root->left!=NULL)
+        root = root->left;
+    return root;
+}
+
+Node* Delete(Node *root, int n)
+{
+    if(root == NULL)
+        return root;
+    else if(n < root->data)
+        root->left = Delete(root->left,n);
+    else if(n > root->data)
+        root->right = Delete(root->right,n);
+    else{
+        if(root->left==NULL && root->right==NULL){
+            delete root;
+            root = NULL;
+        }
+        else if(root->left == NULL)
+        {
+            Node *temp = root;
+            root = root->right;
+            delete temp;
+        }
+        else if(root->right == NULL)
+        {
+            Node *temp = root;
+            root = root->left;
+            delete temp;
+        }
+        else
+        {
+            Node* temp = findMin(root->right);
+            root->data = temp->data;
+            root->right = Delete(root->right,temp->data);
+        }
+    }
+}
+
 int main()
 {
     Node *root = NULL;		
@@ -66,6 +107,7 @@ int main()
         cout<<"\n2. Inorder Traversal";
         cout<<"\n3. Preorder Traversal";
         cout<<"\n4. Postorder Traversal";
+        cout<<"\n5. Delete";
         cout<<"\nEnter your choice: ";
         int n;
         cin>>n;
@@ -81,10 +123,13 @@ int main()
             break;
             case 3: cout<<"\nPreorder traversal: ";
             	     preorder(root);
-           break;
-           case 4: cout<<"\nPostorder traversal: ";
+            break;
+            case 4: cout<<"\nPostorder traversal: ";
             	     postorder(root);
-           break;
+            break;
+            case 5: cout<<"\nEnter data to be deleted: ";
+                    cin>>data;
+                    root = Delete(root,data);
         }
         cout<<"\nDo you want to continue? : ";
         cin>>ch;
