@@ -38,6 +38,24 @@ void inorder(Node *node)
     inorder(node->right);
 }
 
+void preorder(Node *node)
+{
+	if(node == NULL)
+		return;
+	cout<<node->data<<" ";
+	preorder(node->left);
+	preorder(node->right);
+}
+
+void postorder(Node *node)
+{
+	if(node == NULL)
+		return;
+	postorder(node->left);
+	postorder(node->right);
+	cout<<node->data<<" ";
+}
+
 int main()
 {
     Node *root = NULL;		
@@ -46,6 +64,8 @@ int main()
     {
         cout<<"\n1. Enter element in tree";
         cout<<"\n2. Inorder Traversal";
+        cout<<"\n3. Preorder Traversal";
+        cout<<"\n4. Postorder Traversal";
         cout<<"\nEnter your choice: ";
         int n;
         cin>>n;
@@ -59,6 +79,12 @@ int main()
             case 2: cout<<"\nInorder traversal: ";
                     inorder(root);
             break;
+            case 3: cout<<"\nPreorder traversal: ";
+            	     preorder(root);
+           break;
+           case 4: cout<<"\nPostorder traversal: ";
+            	     postorder(root);
+           break;
         }
         cout<<"\nDo you want to continue? : ";
         cin>>ch;
