@@ -1,68 +1,67 @@
-#include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
 struct Node{
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node *right;
+    Node(int data)
+    {
+        this->data = data;
+        left = right = NULL;
+    }
 };
 
-Node* getNewNode(int data)
+
+Node* insert(Node *root, int n)
 {
-	Node* newNode = new Node();
-	newNode->data = data;
-	newNode->left = NULL;
-	newNode->right = NULL;
-	return newNode;
+    if(root==NULL)
+    {
+        Node *newNode = new Node(n);
+        root = newNode;
+        cout<<"\n"<<n<<" inserted";
+    }
+    else if(n <= root->data)
+        root->left = insert(root->left,n);
+    else
+        root->right = insert(root->right,n);
+        
+    return root;
 }
 
-Node* insert(Node* root, int data)
+void inorder(Node *node)
 {
-	if(root == NULL)
-	{
-		root = getNewNode(data);
-		cout<<data<<" inserted"<<endl;
-	}
-	
-	else if(data <= root->data)
-	{
-		root->left = insert(root->left,data);
-	}
-	
-	else{
-		root->right = insert(root->right,data);
-	}
-	
-	return root;
-}
-
-bool search(Node* root, int data)
-{
-	if(root == NULL)
-		return false;
-	else if(data == root->data)
-		return true;
-	else if(data <= root->data)
-		return search(root->left, data);
-	else
-		return search(root->right, data);
+    if(node == NULL)
+        return;
+    inorder(node->left);
+    cout<<node->data<<" ";
+    inorder(node->right);
 }
 
 int main()
 {
-	Node* root = NULL;
-	root = insert(root,5);
-	root = insert(root,10);
-	root = insert(root,4);
-	root = insert(root,3);
-	root = insert(root,45);
-	root = insert(root,32);
-	int n;
-	cout<<"\nEnter a number to be searched: ";
-	cin>>n;
-	if(search(root,n) == true)
-		cout<<"\nFound";
-	else
-		cout<<"\nNot found";
-	return 0;
+    Node *root = NULL;		
+    char ch;
+    do
+    {
+        cout<<"\n1. Enter element in tree";
+        cout<<"\n2. Inorder Traversal";
+        cout<<"\nEnter your choice: ";
+        int n;
+        cin>>n;
+        switch(n)
+        {
+            case 1: int data;
+                    cout<<"\nEnter data: ";
+                    cin>>data;
+                    root = insert(root,data);
+            break;
+            case 2: cout<<"\nInorder traversal: ";
+                    inorder(root);
+            break;
+        }
+        cout<<"\nDo you want to continue? : ";
+        cin>>ch;
+    }while(ch=='y');
+    return 0;
 }
